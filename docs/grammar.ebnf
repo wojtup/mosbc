@@ -1,0 +1,127 @@
+(* EBNF GRAMMAR FOR MIKEOS BASIC (sort of) *)
+(* Note: It really diverges from the language implemented orginally in some places *)
+(* Although most of this deviations make sense, like allowing to print expressions *)
+
+(* Program has to have at least one statement *)
+program = statement , { statement } , EOF ;
+statement = assign | ifstmt | dostmt | forstmt | LABEL | keywordstmt ;
+
+(* There are four basic statements: assignment, if, do and for *)
+assign = variable , "=" , expr ;
+ifstmt = "IF" , boolexpr , "THEN" , statement , [ "ELSE" , statement ] ;
+dostmt = dostmtendless | dostmtendful ;
+forstmt = "FOR" , assign , "TO" , expr , { statement } , "NEXT" , NUMERIC_VARIABLE ;
+
+(* Little helpers for do *)
+dostmtendless = "DO" , { statement } , "LOOP" , "ENDLESS" ;
+dostmtendful = "DO" , { statement } , "LOOP", ( "WHILE" | "UNTIL" ) , boolexpr ;
+
+(* Here we have a general rule for keyword statements and, by the nature of BASIC, there are lots of them *)
+keywordstmt = alertstmt |
+		askfilestmt |
+		breakstmt |
+		callstmt |
+		casestmt |
+		clsstmt |
+		cursorstmt |
+		curscharstmt |
+		curscolstmt |
+		cursposstmt |
+		deletestmt |
+		endstmt |
+		filesstmt |
+		getkeystmt |
+		gosubstmt |
+		gotostmt |
+		includestmt |
+		inkstmt |
+		inputstmt |
+		lenstmt |
+		listboxstmt |
+		loadstmt |
+		movestmt |
+		numberstmt |
+		pagestmt |
+		pausestmt |
+		peekstmt |
+		peekintstmt |
+		pokestmt |
+		pokeintstmt |
+		portstmt |
+		printstmt |
+		randstmt |
+		readstmt |
+		renamestmt |
+		returnstmt |
+		savestmt |
+		serialstmt |
+		sizestmt |
+		soundstmt |
+		stringstmt |
+		waitkeystmt ;
+
+(* Oh boy... *)
+alertstmt = ALERT , string ;
+askfilestmt = ASKFILE , STRING_VARIABLE ;
+breakstmt = BREAK ;
+callstmt = CALL , expr ;
+casestmt = CASE , ( LOWER | UPPER ) , STRING_VARIABLE ;
+clsstmt = CLS ;
+cursorstmt = CURSOR , ( OFF | ON ) ;
+curscharstmt = CURSCHAR , NUMERIC_VARIABLE ;
+curscolstmt = CURSCOL , NUMERIC_VARIABLE ;
+cursposstmt = CURSPOS , NUMERIC_VARIABLE , NUMERIC_VARIABLE ;
+deletestmt = DELETE , string ;
+endstmt = END ;
+filesstmt = FILES ;
+getkeystmt = GETKEY, NUMERIC_VARIABLE ;
+gosubstmt = GOSUB , LABEL ;
+gotostmt = GOTO , LABEL ;
+includestmt = INCLUDE , STRING_LITERAL ;
+inkstmt = INK , numeric ;
+inputstmt = INPUT , variable ;
+lenstmt = LEN , string , NUMERIC_VARIABLE ;
+listboxstmt = LISTBOX , string , string , string , NUMERIC_VARIABLE ;
+loadstmt = LOAD , string , numeric ;
+movestmt = MOVE , numeric , numeric ;
+numberstmt = numberstrtonum | numbernumtostr ;
+pagestmt = PAGE , numeric , numeric ;
+pausestmt = PAUSE , numeric ;
+peekstmt = PEEK , NUMERIC_VARIABLE , numeric ;
+peekintstmt = PEEKINT , NUMERIC_VARIABLE , numeric ;
+pokestmt = POKE , numeric , numeric ;
+pokeintstmt = POKEINT , numeric , numeric ;
+portstmt = portin | portout ;
+printstmt = PRINT , ( CHR | HEX ) , expr , ( ";" ) ;
+randstmt = RAND , NUMERIC_VARIABLE , numeric , numeric ;
+readstmt = READ , LABEL , numeric , NUMERIC_VARIABLE ;
+renamestmt = RENAME , string , string ;
+returnstmt = RETURN ;
+savestmt = SAVE , string , numeric , numeric ;
+serialstmt = serialon | serialsend | serialrec ;
+sizestmt = SIZE , string ;
+soundstmt = SOUND , numeric , numeric ;
+stringstmt = STRING , ( GET | SET ) , STRING_VARIABLE , numeric , NUMERIC_VARIABLE ;
+waitkeystmt = WAITKEY , NUMERIC_VARIABLE ;
+
+(* Helpers for keyword rules *)
+numberstrtonum = NUMBER , STRING_VARIABLE , NUMERIC_VARIABLE ;
+numbernumtostr = NUMBER , NUMERIC_VARIABLE , STRING_VARIABLE ;
+portin = PORT , IN , numeric , NUMERIC_VARIABLE ;
+portout = PORT , OUT , numeric , numeric ;
+serialon = SERIAL , ON , numeric ; (* "1200" | "9600" *)
+serialsend = SERIAL , SEND , numeric ;
+serialrec = SERIAL , REC , NUMERIC_VARIABLE ;
+
+(* This rules are used everywhere (NOTE: here are most of the differences from MikeOS implementation) *)
+boolexpr = cond , { "AND" , cond } ;
+cond = variable , ( "=" | "<" | ">" | "!=" ) , expr ;
+expr = primary , { ( "+" | "-" | "*" | "/" | "%" ) , primary } ;
+primary = ( "&" ) , variable | variable | literal | keywordval ;
+
+(* Those are simplifying other rules *)
+keywordval = PROGSTART | RAMSTART | VARIABLES | VERSION | TIMER | INK ;
+literal = STRING_LITERAL | NUMERIC_LITERAL | CHARACTER_LITERAL ;
+string = STRING_VARIABLE | STRING_LITERAL ;
+numeric = NUMERIC_VARIABLE | NUMERIC_LITERAL | ( "&" ) , variable | keywordval ;
+variable = NUMERIC_VARIABLE | STRING_VARIABLE ;
