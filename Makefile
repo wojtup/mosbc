@@ -34,17 +34,33 @@ obj/%.o: src/%.c
 	$(info [35mBuilding $@[0m)
 	@$(CC) $(CFLAGS) $(^) -o $(@) -c
 
-# Clean rule, for Windows
-wincln:
+# Initialize the project (create directories with autodetect)
+init:
+	$(info [31mInitializing project directory[0m)
+ifeq ($(OS),Windows_NT)
+	@mkdir bin
+	@mkdir obj
+	@mkdir obj\front
+	@mkdir obj\back
+	@mkdir obj\util
+else
+	@mkdir -p bin
+	@mkdir -p obj
+	@mkdir -p obj/front
+	@mkdir -p obj/back
+	@mkdir -p obj/util
+endif
+
+# Clean rule, with autodetect
+clean:
 	$(info [33mCleaning binaries[0m)
+ifeq ($(OS),Windows_NT)
 	@del obj\main.o
 	@del obj\back\*.o
 	@del obj\front\*.o
 	@del obj\util\*.o
 	@del bin\mosbc.exe
-
-# Clean rule, for Linux (*nixes in general)
-nixcln:
-	$(info [33mCleaning binaries[0m)
+else
 	@rm $(OBJ)
 	@rm bin/mosbc.exe
+endif

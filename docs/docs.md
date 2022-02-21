@@ -5,21 +5,21 @@ throughout the development. Enjoy!
 
 ### VERY IMPORTANT THINGS:
 
-- [review.md](review.md) - Review of code structure.
-- [differences.md](differences.md) - List of all differences between MikeOS'
+- [Code review](review.md) - Review of code structure.
+- [Differences](differences.md) - List of all differences between MikeOS'
 original implementation and this one.
 
 ### Compiler:
 
-- [codegen_theory.md](codegen_theory.md) - Some explanation of how code
-generator works.
+- ["Codegen Theory"](codegen_theory.md) - Some explanation of how code generator
+works.
 
 ### Parser:
 
-- [grammar.ebnf](grammar.ebnf) - Something trying to be EBNF grammar.
-- [parsing_theory.md](parsing_theory.md) - Some explanation of how parser works.
+- [Grammar](grammar.ebnf) - Something trying to be an EBNF grammar.
+- ["Parsing Theory"](parsing_theory.md) - Some explanation of how parser works.
 
 ### Least useful:
 
-- [list.md](list.md) - List of keywords for MikeOS.
-- [node_info.md](node_info.md) - Basic info about how nodes are constructed.
+- [Keyword list](list.md) - List of keywords for MikeOS.
+- [Node info](node_info.md) - Basic info about how nodes are constructed.

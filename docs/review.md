@@ -9,10 +9,14 @@
 ## Directories
 
 Directories of this project are:
-- `bin`: Here lies the compiled executable.
+- `additional`: Here are some additional files (like test files or syntax
+highlighting for Vim)
+- `bin`: Here lies the compiled executable (**Note:** you need to run
+`make init` first to have this directory).
 - `docs`: You are here.
 - `include`: All of the headers are in here.
-- `obj`: Object files produced during compilation.
+- `obj`: Object files produced during compilation (**Note:** you need to run
+`make init` first to have this directory).
 - `src`: This is the main directory with source files.
   - `back`: Source of the back-end (code generator).
   - `front`: Source of the front-end (lexer and parser).
@@ -66,11 +70,11 @@ It isn't rocket science, but we use those two:
 Dynamic arrays are like normal contiguous arrays, but have added parameter:
 their capacity. So if you want to add new element, inserting function checks if
 there is enough space, and if not it extends array by a factor of 2. This way
-we can reduce number of needed reallocations (<-- good!). If you want to know
+we can reduce number of needed reallocations (that's good). If you want to know
 more about dynamic arrays, read yet another article on Wikipedia, right
 [here](https://en.wikipedia.org/wiki/Dynamic_array).
 
-Binary trees are basically a set of nodes, where all nods hold references to
+Binary trees are basically a set of nodes, where all nodes hold references to
 two of their *children*. If the reference is `NULL` it means there is no child.
 Because every node specifies all of its descendants, we can pass the whole tree
 using only the top-most node (called root). Don't ask me why root is on top.

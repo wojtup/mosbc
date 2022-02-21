@@ -7,6 +7,11 @@ this operating system. For documentation on the language itself, please read the
 
 ## Building
 
+To setup the project (creates output directories):
+```
+make init
+```
+
 For release build:
 ```
 make all 	(default)
@@ -20,9 +25,11 @@ make debug
 
 For cleanup (deletes all object files):
 ```
-make wincln	(for Windows with MINGW)
-make nixcln	(for *nixes and CYGWIN)
+make clean
 ```
+
+**Note:** Don't try to initialize already initialized project, or you will get
+some errors (at least on Windows).
 
 ## Licensing
 
@@ -42,6 +49,10 @@ this program. If not, see <https://www.gnu.org/licenses/>.
 
 ## Documentation
 
-See `docs/`, especially [docs.md](docs/docs.md).
+See `docs/`, start by reading [main documentation file](docs/docs.md).
 
 ## Contributing
+
+Contributions are very much welcome! If you have one, you can either write an
+email to me (contact: <grzela.wojciech@gmail.com>) or open a pull request on
+GitHub.
